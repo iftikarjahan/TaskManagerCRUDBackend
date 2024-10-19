@@ -1,6 +1,8 @@
 const express=require("express");
 const app=express();
 const adminRoutes=require("./routes/admin");
+const connectDB=require("./db/connect");   //returns a promise
+require('dotenv').config()
 
 // middleware to parse json requests
 /*
@@ -11,10 +13,26 @@ const adminRoutes=require("./routes/admin");
 app.use(express.json());  
 
 app.use("/admin",adminRoutes);
-
+// connectionFunction();
 
 const port=3003;
-app.listen(port,()=>{
-    console.log(`Sever running at http://localhost:${port}`);
-})
+// console.log(process.env.MONGOUR);
+
+
+// Using this, we are at first establishing connection with db and then running the server
+const start=async ()=>{
+    try {
+        const result=await connectDB(process.env.MONGOURI);
+        console.log("CONNECTED TO DB");
+        app.listen(port,()=>{
+            console.log(`Sever running at http://localhost:${port}`);
+        })
+        
+    } catch (error) {
+        console.log("ERROR 🎀: ",error);
+    }
+}
+
+start();
+
 
