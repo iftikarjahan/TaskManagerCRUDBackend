@@ -1,9 +1,21 @@
+const Task=require("../models/task");
+
 const getTasks=(req,res,next)=>{
     res.json({name:"Iftikar",age:24});
 }
 
-const createTask=(req,res,next)=>{
-    res.json(req.body.createdTask);
+const createTask=async(req,res,next)=>{
+    try {
+        /*
+        ->The task class expects an object
+        ->The express.json() middleware converts the json request body to a js object
+        */ 
+        const task=new Task(req.body);
+        const result=await task.save();
+        res.status(201).json({result});
+    } catch (error) {
+        res.status(500).json({msg:error});
+    }
 }
 
 const getSingleTask=(req,res,next)=>{
