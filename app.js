@@ -4,6 +4,10 @@ const adminRoutes=require("./routes/admin");
 const connectDB=require("./db/connect");   //returns a promise
 require('dotenv').config()
 
+
+// serving the static files
+app.use(express.static("public"));
+
 // middleware to parse json requests
 /*
 ->the header should be set to application/json
@@ -17,7 +21,6 @@ app.use("/admin",adminRoutes);
 
 const port=3003;
 // console.log(process.env.MONGOUR);
-
 
 // Using this, we are at first establishing connection with db and then running the server
 const start=async ()=>{
