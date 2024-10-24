@@ -6,16 +6,20 @@ const editBtnDOM = document.querySelector('.task-edit-btn')
 const formAlertDOM = document.querySelector('.form-alert')
 const params = window.location.search
 const id = new URLSearchParams(params).get('id')
+// console.log(id);
+
 let tempName
 
 const showTask = async () => {
+  // console.log("ccccc");
+  
   try {
-    const {
-      data: { task },
-    } = await axios.get(`/api/v1/tasks/${id}`)
-    const { _id: taskID, completed, name } = task
+    const task = await axios.get(`/admin/single-task/${id}`)
+    const { _id:taskId, name, completed } = task.data;
+    // console.log("vvvv: ",task);
+    
 
-    taskIDDOM.textContent = taskID
+    taskIDDOM.textContent = taskId;
     taskNameDOM.value = name
     tempName = name
     if (completed) {
@@ -35,14 +39,12 @@ editFormDOM.addEventListener('submit', async (e) => {
     const taskName = taskNameDOM.value
     const taskCompleted = taskCompletedDOM.checked
 
-    const {
-      data: { task },
-    } = await axios.patch(`/api/v1/tasks/${id}`, {
+    const task= await axios.patch(`/admin/update-task/${id}`, {
       name: taskName,
       completed: taskCompleted,
     })
 
-    const { _id: taskID, completed, name } = task
+    const { _id: taskID, completed, name } = task.data;
 
     taskIDDOM.textContent = taskID
     taskNameDOM.value = name

@@ -26,7 +26,7 @@ const createTask = async (req, res, next) => {
 
 const getSingleTask = async(req, res, next) => {
   try {
-    const taskId=req.params.taskId;
+    const taskId=req.params.id;
     console.log(taskId);
     
     const task=await Task.findOne({_id:taskId});
@@ -44,7 +44,7 @@ const getSingleTask = async(req, res, next) => {
 
 const updateTask =async (req, res, next) => {
   try {
-    const taskId=req.params.taskId;
+    const taskId=req.params.id;
     const updatedTask=await Task.findOneAndUpdate({_id:taskId},req.body,{new:true,runValidators:true});
     console.log(updatedTask);
     
