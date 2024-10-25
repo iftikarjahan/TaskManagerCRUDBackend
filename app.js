@@ -4,6 +4,7 @@ const adminRoutes = require("./routes/admin");
 const connectDB = require("./db/connect"); //returns a promise
 require("dotenv").config();
 const notFound = require("./middlewares/not-found");
+const errorHandlingMiddleware=require("./middlewares/errorHandler");
 
 // serving the static files
 app.use(express.static("public"));
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/admin", adminRoutes);
 app.use(notFound);
+app.use(errorHandlingMiddleware);
 
 const port = 3003;
 // console.log(process.env.MONGOUR);
